@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Interactive proof that two side-6 squares, one cornered at the other's centre, always overlap in area 9.">
+<meta property="og:title" content="Why the overlap is always 9">
+<meta property="og:url" content="https://noldo1966.github.io/math-demos/">
+<meta property="og:image" content="https://noldo1966.github.io/math-demos/preview.png">
+<meta property="og:type" content="website">
+<meta property="og:description" content="Drag the tilt and watch every formula update. The shaded area never changes.">
+<style>body{margin:0}</style>
+<title>The Tilted Square Overlap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2230; --muted:#5a6475; --line:#d9dde4;
+  --fixed:#2f6fc4; --fixed-fill:rgba(47,111,196,.10);
+  --tilt:#d08a1e; --shade:rgba(222,150,40,.42);
+  --t1:rgba(216,90,48,.45); --t2:rgba(29,158,117,.38);
+  --add:rgba(99,153,34,.62); --rem:rgba(226,75,74,.55);
+  --accent:#2f6fc4; --key:#1d5fb3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#12151b; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2e3542;
+    --fixed:#6aa3ec; --fixed-fill:rgba(106,163,236,.10);
+    --tilt:#f0b24a; --shade:rgba(240,178,74,.38);
+    --key:#8dbaf2; --accent:#6aa3ec;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#12151b; --panel:#1a1f28; --ink:#e7eaf0; --muted:#9aa3b2; --line:#2e3542;
+  --fixed:#6aa3ec; --fixed-fill:rgba(106,163,236,.10);
+  --tilt:#f0b24a; --shade:rgba(240,178,74,.38);
+  --key:#8dbaf2; --accent:#6aa3ec;
+}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:28px 40px;display:flex;flex-direction:column;gap:18px}
+h1{font-family:Literata,Georgia,serif;font-weight:600;font-size:clamp(26px,5vw,34px);line-height:1.2;margin:0;text-wrap:balance}
+.lede{margin:0;color:var(--muted);max-width:62ch}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.steps button{font:500 14px "IBM Plex Sans",sans-serif;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}
+.steps button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.steps button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.cap{margin:0;min-height:3.2em;color:var(--ink)}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:"IBM Plex Sans",sans-serif;fill:var(--ink)}
+svg .pt{font-weight:500;font-size:16px}
+svg .len{font-family:"IBM Plex Mono",monospace;font-size:13px;fill:var(--muted)}
+.slider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px}
+.slider input{flex:1;accent-color:var(--tilt)}
+.slider output{font:500 15px "IBM Plex Mono",monospace;color:var(--ink);min-width:3.2em;text-align:right}
+.ftab{display:flex;flex-direction:column}
+.fhead,.fr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:4px 16px}
+.fhead{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-bottom:6px}
+.fr{border-top:1px solid var(--line);padding:8px 0;font-size:15px}
+.fr .num{font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums}
+.fr.key .num{color:var(--key);font-weight:500}
+.note{font-size:14px;color:var(--muted);margin:0;max-width:65ch}
+@media (max-width:480px){.fhead,.fr{grid-template-columns:1fr}.fhead span:last-child{display:none}.fr{gap:0}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <h1>Why the overlap is always 9</h1>
+  <p class="lede">Two squares of side 6. One has a corner on the centre O of the other. Drag the tilt, then step through the argument. Every formula below is evaluated at the angle you choose.</p>
+
+  <div class="steps" role="group" aria-label="Proof steps">
+    <button id="b0" onclick="go(0)">Setup</button>
+    <button id="b1" onclick="go(1)">1. Split along OC</button>
+    <button id="b2" onclick="go(2)">2. Compare to 3×3</button>
+    <button id="b3" onclick="go(3)">3. Equal angles</button>
+    <button id="b4" onclick="go(4)">4. Result</button>
+  </div>
+
+  <div class="stage">
+    <p class="cap" id="cap"></p>
+    <svg id="s" viewBox="150 10 460 490" role="img" aria-label="Fixed square, tilted square, and the shaded overlap"></svg>
+    <div class="slider">
+      <label for="tilt">Tilt ∠MOP</label>
+      <input type="range" id="tilt" min="0" max="45" step="1" value="27" oninput="draw()">
+      <output id="tv">27°</output>
+    </div>
+    <div class="ftab">
+      <div class="fhead"><span>Formula</span><span>At this tilt</span></div>
+      <div id="fm"></div>
+    </div>
+  </div>
+
+  <p class="note">Why the side length matters: the farthest point of the fixed square from O is a corner, at distance 3√2 ≈ 4.24. That is less than 6, so the tilted square always covers the whole wedge between its two sides at O. With a tilted square of side 2, the overlap would be only 4.</p>
+</div>
+
+<script>
+const O=[340,150],M=[340,270],N=[460,150],C=[460,270];
+let step=0;
+const caps=[
+"O is the centre, so OM = ON = 3. The corner of the tilted square at O is a right angle, so ∠POQ = 90°. The shaded region is the quadrilateral OPCQ.",
+"Cut along the diagonal OC. Triangle OPC has base PC and height OM = 3. Triangle OCQ has base CQ and height ON = 3. Drag the tilt: one grows, the other shrinks, the total stays 9.",
+"Compare with the 3×3 square OMCN. Tilting adds triangle OMP (green) and removes triangle ONQ (red). The two numbers match at every tilt. Step 3 shows why.",
+"Start from the tilt ∠MOP. Subtract it from the right angle POQ to get ∠MOQ. Subtract that from the right angle MON to get ∠NOQ. The result is the tilt again, so the green and red triangles are congruent (right angle, leg 3, equal angle) and PM = NQ.",
+"Since PM = NQ, the tilt cancels: PC + CQ = (3 + PM) + (3 − NQ) = 6. So the shaded area is ½ × 3 × 6 = 9 at every tilt from 0° to 45°."
+];
+function go(k){step=k;for(let i=0;i<5;i++)document.getElementById('b'+i).setAttribute('aria-pressed',i===k);draw();}
+const f=n=>String(Math.round(n*1000)/1000);
+const poly=(pts,fill,stroke,sw,dash)=>`<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="${fill}" stroke="${stroke||'none'}" stroke-width="${sw||0}" ${dash?'stroke-dasharray="5 4"':''}/>`;
+const ln=(a,b,st,w,dash)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${st}" stroke-width="${w}" ${dash?'stroke-dasharray="5 4"':''}/>`;
+const tx=(x,y,s,a,c)=>`<text class="${c||'pt'}" x="${x}" y="${y}" text-anchor="${a||'start'}">${s}</text>`;
+const dot=p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3.5" fill="var(--ink)"/>`;
+const row=(sym,num,key)=>`<div class="fr${key?' key':''}"><span>${sym}</span><span class="num">${num}</span></div>`;
+function draw(){
+  const deg=+document.getElementById('tilt').value;
+  document.getElementById('tv').textContent=deg+'°';
+  const tr=Math.tan(deg*Math.PI/180),nn=Math.hypot(1,tr);
+  const r=Math.round(3*tr*100)/100;
+  const PM=r,NQ=r,PC=3+r,CQ=3-r,A1=1.5*PC,A2=1.5*CQ,AG=1.5*PM;
+  const Q=[460,150+40*NQ],P=[340-40*PM,270];
+  const d1=[1/nn,tr/nn],d2=[-tr/nn,1/nn],L=240;
+  const T1=[O[0]+L*d1[0],O[1]+L*d1[1]],T3=[O[0]+L*d2[0],O[1]+L*d2[1]],T2=[T1[0]+L*d2[0],T1[1]+L*d2[1]];
+  let g='';
+  g+=poly([[220,30],[460,30],[460,270],[220,270]],'var(--fixed-fill)','var(--fixed)',2);
+  g+=poly([O,T1,T2,T3],'none','var(--tilt)',2);
+  if(step===0)g+=poly([O,P,C,Q],'var(--shade)');
+  if(step===1||step===4){
+    g+=poly([O,P,C],'var(--t1)');g+=poly([O,C,Q],'var(--t2)');g+=ln(O,C,'var(--ink)',1,true);
+    g+=tx(236,58,'PC = '+f(PC),'start','len');g+=tx(236,80,'CQ = '+f(CQ),'start','len');
+  }
+  if(step>=1){g+=ln(O,M,'var(--muted)',1,true);g+=ln(O,N,'var(--muted)',1,true);g+=tx(346,215,'3','start','len');g+=tx(400,142,'3','middle','len');}
+  if(step===2||step===3){
+    g+=poly([O,P,C,Q],'var(--shade)');g+=poly([O,M,C,N],'none','var(--ink)',1.2,true);
+    g+=poly([O,M,P],'var(--add)');g+=poly([O,N,Q],'var(--rem)');
+    g+=tx(236,58,'PM = '+f(PM),'start','len');g+=tx(236,80,'NQ = '+f(NQ),'start','len');
+  }
+  if(step===3){
+    const rr=40,a1=[O[0],O[1]+rr],a2=[O[0]+rr*d2[0],O[1]+rr*d2[1]],b1=[O[0]+rr,O[1]],b2=[O[0]+rr*d1[0],O[1]+rr*d1[1]];
+    if(deg>0){
+      g+=`<path d="M${a1} A${rr} ${rr} 0 0 1 ${a2}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+      g+=`<path d="M${b1} A${rr} ${rr} 0 0 1 ${b2}" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+    }
+    g+=ln(O,Q,'var(--tilt)',3);g+=ln(O,P,'var(--tilt)',3);
+  }
+  [O,M,N,C,P,Q].forEach(p=>g+=dot(p));
+  g+=tx(328,144,'O','end');g+=tx(345,290,'M');g+=tx(P[0]-6,290,'P','end');g+=tx(468,290,'C');
+  g+=tx(466,143,'N');if(NQ>0.4&&NQ<2.6)g+=tx(468,Q[1]+16,'Q');else if(NQ<=0.4)g+=tx(484,143,'= Q','start','len');else g+=tx(484,290,'= Q','start','len');
+  document.getElementById('s').innerHTML=g;
+
+  let h='';
+  if(step===0){
+    h+=row('OM = ON (centre to side)','6 ÷ 2 = 3');
+    h+=row('∠POQ (corner of tilted square)','90°');
+    h+=row('∠MON (between the two perpendiculars)','90°');
+    h+=row('Tilt ∠MOP (you choose it)',deg+'°',1);
+  }
+  if(step===1){
+    h+=row('Area OPC = ½ × 3 × PC','½ × 3 × '+f(PC)+' = '+f(A1));
+    h+=row('Area OCQ = ½ × 3 × CQ','½ × 3 × '+f(CQ)+' = '+f(A2));
+    h+=row('Shaded = OPC + OCQ',f(A1)+' + '+f(A2)+' = '+f(A1+A2),1);
+  }
+  if(step===2){
+    h+=row('PC = PM + MC = PM + 3',f(PM)+' + 3 = '+f(PC));
+    h+=row('CQ = CN − NQ = 3 − NQ','3 − '+f(NQ)+' = '+f(CQ));
+    h+=row('Added: area OMP = ½ × 3 × PM','½ × 3 × '+f(PM)+' = '+f(AG));
+    h+=row('Removed: area ONQ = ½ × 3 × NQ','½ × 3 × '+f(NQ)+' = '+f(1.5*NQ));
+    h+=row('Shaded = 9 + added − removed','9 + '+f(AG)+' − '+f(1.5*NQ)+' = '+f(9+AG-1.5*NQ),1);
+  }
+  if(step===3){
+    h+=row('Given: tilt ∠MOP',deg+'°');
+    h+=row('∠MOQ = ∠POQ − ∠MOP','90° − '+deg+'° = '+(90-deg)+'°');
+    h+=row('∠NOQ = ∠MON − ∠MOQ','90° − '+(90-deg)+'° = '+deg+'°',1);
+    h+=row('PM = OM × tan ∠MOP','3 × tan '+deg+'° = '+f(PM));
+    h+=row('NQ = ON × tan ∠NOQ','3 × tan '+deg+'° = '+f(NQ),1);
+  }
+  if(step===4){
+    h+=row('PM = NQ (step 3)',f(PM)+' = '+f(NQ));
+    h+=row('PC + CQ = (3 + PM) + (3 − NQ)',f(PC)+' + '+f(CQ)+' = 6');
+    h+=row('Shaded = ½ × 3 × (PC + CQ)','½ × 3 × 6 = 9',1);
+  }
+  document.getElementById('fm').innerHTML=h;
+  document.getElementById('cap').textContent=caps[step];
+}
+go(0);
+</script>
+</body>
+</html>
