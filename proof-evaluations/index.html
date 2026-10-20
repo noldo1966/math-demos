@@ -27,21 +27,21 @@
 
   <p>Each evaluation applies the standard's test for a text: a proof must carry the reader from step to step with the reader supplying nothing, judged only by what is on the page. Every step the text does not carry out is listed as a gap, and every false statement is listed separately as a false step. Where a gap is filled, the work is labeled as the evaluator's and is not credited to the author.</p>
 
-  <h2>1. Kerr, "A simpler proof that there are no Landau–Siegel zeros"</h2>
+  <h2 id="kerr">1. Kerr, "A simpler proof that there are no Landau–Siegel zeros"</h2>
   <p>Bryce Kerr, <a href="https://arxiv.org/abs/2610.21099">arXiv:2610.21099v1</a>, 15 October 2026.</p>
   <p><strong>Finding.</strong> As written, the paper is not a complete proof by this standard. It has one false step (the field K is said to have degree four, which fails for q = 8), 32 gaps (7 substantive, 25 routine) and 3 notation defects, and it states no foundation. Above that foundation no mathematical error was found. Every gap was filled, every printed number was confirmed by machine, and each cited source supports its use once the bridging steps are supplied. This does not establish the result; independent expert review is still needed.</p>
 
   <h3>Final report</h3>
   <ul>
-    <li>Step 6, final report: <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.md">Markdown</a></li>
+    <li>Report 6 (Step 6), final report: <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.md">Markdown</a></li>
   </ul>
   <h3>Working reports</h3>
   <ul>
-    <li>Step 1, structure and foundation: <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.md">Markdown</a></li>
-    <li>Step 2, line-by-line audit, with the derivations that fill the gaps: <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.md">Markdown</a></li>
-    <li>Step 3, machine recomputation: <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.md">Markdown</a></li>
-    <li>Step 4, citations checked against the originals: <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.md">Markdown</a></li>
-    <li>Step 5, plausibility and context: <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.md">Markdown</a></li>
+    <li>Report 1 (Step 1), structure and foundation: <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.md">Markdown</a></li>
+    <li>Report 2 (Step 2), line-by-line audit, with the derivations that fill the gaps: <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.md">Markdown</a></li>
+    <li>Report 3 (Step 3), machine recomputation: <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.md">Markdown</a></li>
+    <li>Report 4 (Step 4), citations checked against the originals: <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.md">Markdown</a></li>
+    <li>Report 5 (Step 5), plausibility and context: <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.md">Markdown</a></li>
   </ul>
   <h3>Step 3 scripts and their output</h3>
   <ul>
@@ -54,7 +54,7 @@
   </ul>
   <p class="note">The scripts need Python 3 and sympy (1.14.0 was used). The reports refer to each other by their working file names, for example "Step 2 - Kerr Landau-Siegel proof evaluation Step 2 18 Oct 2026 1746_v1.md"; on this site the same files carry the shorter names above, with the same step number, date, time and version.</p>
 
-  <h2>2. Fayed, "A Simple Proof of the Riemann Hypothesis"</h2>
+  <h2 id="fayed">2. Fayed, "A Simple Proof of the Riemann Hypothesis"</h2>
   <p>Hatem A. Fayed, <a href="https://arxiv.org/abs/2209.01890v54">arXiv:2209.01890v54</a> [math.GM], 7 October 2026.</p>
   <p><strong>Finding.</strong> The paper does not prove the Riemann Hypothesis. Its conclusion rests on one false step: L'Hôpital's rule is applied in equations (41) to (48) to a ratio of derivatives that has no limit, sampled only on a "buffered domain" where its sign is fixed. The author's own formulas give the quantity exactly, and its limit is 0 whatever the real part of the zero. The same reasoning, which never uses that the point is a zero, would "prove" Re s = ½ for every complex number s.</p>
   <ul>
