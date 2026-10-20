@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proof Evaluations</title>
+<meta name="description" content="Evaluations of two recent proofs against the standard of Answer Every Question, by Arnoldo Miranda: Kerr on Landau–Siegel zeros, and Fayed on the Riemann Hypothesis.">
+<style>
+  :root { --bg: #ffffff; --fg: #1a1a1a; --muted: #555; --link: #0b57d0; --rule: #ddd; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #121212; --fg: #e8e8e8; --muted: #aaa; --link: #8ab4f8; --rule: #333; } }
+  body { background: var(--bg); color: var(--fg); font: 17px/1.55 Georgia, "Times New Roman", serif; margin: 0; padding: 32px 16px; }
+  main { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: 1.6em; margin: 0 0 4px; }
+  h2 { font-size: 1.1em; margin: 28px 0 8px; border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+  h3 { font-size: 1em; margin: 18px 0 6px; }
+  p.sub { color: var(--muted); margin: 0 0 20px; }
+  ol, ul { padding-left: 1.3em; }
+  a { color: var(--link); overflow-wrap: anywhere; }
+  li { margin: 6px 0; }
+  .note { color: var(--muted); font-size: 0.92em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Proof Evaluations</h1>
+  <p class="sub">Two recent proofs read against the standard of <a href="../answer-every-question/">Answer Every Question</a>. Arnoldo Miranda, 18 October 2026.</p>
+
+  <p>Each evaluation applies the standard's test for a text: a proof must carry the reader from step to step with the reader supplying nothing, judged only by what is on the page. Every step the text does not carry out is listed as a gap, and every false statement is listed separately as a false step. Where a gap is filled, the work is labeled as the evaluator's and is not credited to the author.</p>
+
+  <h2>1. Kerr, "A simpler proof that there are no Landau–Siegel zeros"</h2>
+  <p>Bryce Kerr, <a href="https://arxiv.org/abs/2610.21099">arXiv:2610.21099v1</a>, 15 October 2026.</p>
+  <p><strong>Finding.</strong> As written, the paper is not a complete proof by this standard. It has one false step (the field K is said to have degree four, which fails for q = 8), 32 gaps (7 substantive, 25 routine) and 3 notation defects, and it states no foundation. Above that foundation no mathematical error was found. Every gap was filled, every printed number was confirmed by machine, and each cited source supports its use once the bridging steps are supplied. This does not establish the result; independent expert review is still needed.</p>
+
+  <h3>Final report</h3>
+  <ul>
+    <li>Step 6, final report: <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-6-final-report-18-Oct-2026-1810_v1.md">Markdown</a></li>
+  </ul>
+  <h3>Working reports</h3>
+  <ul>
+    <li>Step 1, structure and foundation: <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-1-18-Oct-2026-1708_v1.md">Markdown</a></li>
+    <li>Step 2, line-by-line audit, with the derivations that fill the gaps: <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-2-18-Oct-2026-1746_v1.md">Markdown</a></li>
+    <li>Step 3, machine recomputation: <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-3-18-Oct-2026-1752_v1.md">Markdown</a></li>
+    <li>Step 4, citations checked against the originals: <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-4-18-Oct-2026-1758_v1.md">Markdown</a></li>
+    <li>Step 5, plausibility and context: <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.pdf">PDF</a> · <a href="kerr-landau-siegel/step-5-18-Oct-2026-1805_v1.md">Markdown</a></li>
+  </ul>
+  <h3>Step 3 scripts and their output</h3>
+  <ul>
+    <li><a href="kerr-landau-siegel/step-3-s3_1_lattice_sums-18-Oct-2026-1752_v1.py">s3_1 lattice sums</a></li>
+    <li><a href="kerr-landau-siegel/step-3-s3_2_algebra-18-Oct-2026-1752_v1.py">s3_2 algebra</a></li>
+    <li><a href="kerr-landau-siegel/step-3-s3_3_lemma2_basis-18-Oct-2026-1752_v1.py">s3_3 Lemma 2 basis</a></li>
+    <li><a href="kerr-landau-siegel/step-3-s3_4_norm_bounds_and_q8-18-Oct-2026-1752_v1.py">s3_4 norm bounds and q = 8</a></li>
+    <li><a href="kerr-landau-siegel/step-3-s3_5_margins-18-Oct-2026-1752_v1.py">s3_5 margins</a> (loads s3_1 from the same folder)</li>
+    <li><a href="kerr-landau-siegel/step-3-script-output-18-Oct-2026-1752_v1.txt">Full output</a></li>
+  </ul>
+  <p class="note">The scripts need Python 3 and sympy (1.14.0 was used). The reports refer to each other by their working file names, for example "Step 2 - Kerr Landau-Siegel proof evaluation Step 2 18 Oct 2026 1746_v1.md"; on this site the same files carry the shorter names above, with the same step number, date, time and version.</p>
+
+  <h2>2. Fayed, "A Simple Proof of the Riemann Hypothesis"</h2>
+  <p>Hatem A. Fayed, <a href="https://arxiv.org/abs/2209.01890v54">arXiv:2209.01890v54</a> [math.GM], 7 October 2026.</p>
+  <p><strong>Finding.</strong> The paper does not prove the Riemann Hypothesis. Its conclusion rests on one false step: L'Hôpital's rule is applied in equations (41) to (48) to a ratio of derivatives that has no limit, sampled only on a "buffered domain" where its sign is fixed. The author's own formulas give the quantity exactly, and its limit is 0 whatever the real part of the zero. The same reasoning, which never uses that the point is a zero, would "prove" Re s = ½ for every complex number s.</p>
+  <ul>
+    <li>Evaluation: <a href="fayed-riemann-hypothesis/step-1-fayed-rh-evaluation-18-Oct-2026-1828_v1.pdf">PDF</a> · <a href="fayed-riemann-hypothesis/step-1-fayed-rh-evaluation-18-Oct-2026-1828_v1.md">Markdown</a></li>
+    <li><a href="fayed-riemann-hypothesis/step-1-fayed-s1_fayed_lhopital-18-Oct-2026-1828_v1.py">Script</a> (Python 3 with mpmath) and its <a href="fayed-riemann-hypothesis/step-1-fayed-script-output-18-Oct-2026-1828_v1.txt">output</a></li>
+  </ul>
+
+  <h2>How these were made</h2>
+  <p>Both evaluations were carried out with Claude, an AI system made by Anthropic, under the working rules of Appendix C of <a href="../answer-every-question/">Answer Every Question</a>: each step was proposed, approved and then done; gaps and false steps were listed separately; and sources were checked against the originals. One limit applies to the Kerr evaluation in particular. Banks's exposition of the argument it simplifies was prepared with Claude, Kerr's paper with ChatGPT, and this evaluation with Claude, so it is not independent of the tools the authors used.</p>
+
+  <p>Questions about these evaluations are welcome. In keeping with requirement 3, I will answer any of them.</p>
+</main>
+</body>
+</html>

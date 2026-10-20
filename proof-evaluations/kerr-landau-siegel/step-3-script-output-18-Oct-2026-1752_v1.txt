@@ -1,0 +1,131 @@
+######## s3_1*.py
+== 1a. Closed-form sums agree with brute-force enumeration
+   D = 0..89, p in {11,13,17,29,97}: all agree
+
+== 1b. Normalized errors (should stay bounded if Kerr's O-terms are right)
+        D    (r-D^3/384)/D^2    (W-5D^4/6144)/D^3    (Si-D^4/1536)/D^3
+      100           0.076283             0.028002             0.024622
+     1000           0.070834             0.025636             0.022376
+    10000           0.070365             0.025415             0.022159
+   100000           0.070318             0.025393             0.022138
+  1000000           0.070313             0.025391             0.022136
+  4000000           0.070313             0.025391             0.022135
+
+== 1c. E_p: max over primes p <= D of |E_p - D^4/(1536 p)| / D^3  (uniformity in p)
+   D =    500: max normalized error 0.001014 (at p = 139)
+   D =   2000: max normalized error 0.001144 (at p = 269)
+   D =   8000: max normalized error 0.001219 (at p = 541)
+   D =  20000: max normalized error 0.001249 (at p = 853)
+
+== 1d. Leading-constant ratios used in the margin chain
+   (5/6144)/(1/1536) = 5/4
+
+######## s3_2*.py
+== 2a. Symbolic identities (a = sqrt q, b = sqrt 2, sqrt(2q) := ab)
+   sigma tau sends a, b, ab to: [-a, -b, a*b]
+   (theta, sigma theta, sigma tau theta) - sum n_j gamma_j = [0, 0, 0]
+   det(gamma_1, gamma_2, gamma_3) = 4*a*b
+   pi(v) = M v = [0, 0, 0]
+   rank of M for a = sqrt(5), b = sqrt(2): 3
+
+== 2b. Frobenius congruences mod pO, and equations (3), (4)
+   q in [-3, -4, 5, -7, -8, 12, 13, -15, 21, -23, 28, -31, 33, 40, -43, 60, -67, 88, 105, -163], odd p < 400, p not dividing q: 17496 congruences checked, 0 failures
+
+== 2c. Lemma 4: G_ijk(theta, sigma theta, sigma tau theta) = 0 mod p^floor(i/p) O
+   q in [-3, 5, -7, 13, -23, 40], p in 11..29 with chi(p) = -1, D = 40: 22500 cases, 0 failures
+
+######## s3_3*.py
+== 3. Lemma 2: membership in L_D and unitriangularity
+   p=11 ell=2 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=2 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=2 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=2 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=3 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=3 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=3 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=11 ell=3 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=2 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=2 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=2 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=2 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=3 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=3 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=3 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=13 ell=3 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=2 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=2 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=2 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=2 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=3 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=3 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=3 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=17 ell=3 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=2 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=2 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=2 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=2 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=3 D= 20: r=    62, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=3 D= 50: r=   532, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=3 D=100: r=  3367, monomials outside L_D: 0, unitriangular: True
+   p=19 ell=3 D=160: r= 12551, monomials outside L_D: 0, unitriangular: True
+
+   Control: p <= 8 (Kerr requires p > 8)
+   p=3 ell=2 D=60: monomials outside L_D: 3009
+   p=5 ell=2 D=60: monomials outside L_D: 1071
+   p=7 ell=2 D=60: monomials outside L_D: 245
+
+######## s3_4*.py
+== 4. Norm constant c(|q|) = (1+sqrt2)(1+sqrt|q|)/sqrt|q|  (needs < 8)
+   |q| =       3: c = 3.808060
+   |q| =       4: c = 3.621320
+   |q| =       5: c = 3.493883
+   |q| =       8: c = 3.267767
+   |q| =     100: c = 2.655635
+   |q| = 1000000: c = 2.416628
+   derivative sign: (-sqrt(2) - 1)/(2*x**(3/2)) (negative, so the maximum is at |q| = 3)
+   exact value at 3: sqrt(3)*(1 + sqrt(2))*(1 + sqrt(3))/3 = 3.808060412490447
+
+== 5. q = 8
+   sqrt(8) = 2*sqrt(2) ; lies in Q(sqrt 2), so [K:Q] = 2 (primitive element sqrt2 + sqrt8 has degree 2)
+   'basis' 1, sqrt q, sqrt 2, sqrt q sqrt 2 = [1, 2*sqrt(2), sqrt(2), 4]
+   coordinates in (1, sqrt2): [[1, 0], [0, 2], [0, 1], [4, 0]] -> rank 2 (not 4)
+   relation: 1*sqrt(q)sqrt(2) - 4*1 = 0 ; sqrt q - 2 sqrt 2 = 0
+   Lemma 3 collision: u = (4, 0, 0, 0) and u' = (0, 0, 0, 1) give c = 4 and 4
+   with 0 <= u_t <= 4: 273 distinct coefficients, versus (U+1)^4 = 625 claimed
+   v = [4, sqrt(2), -2*sqrt(2), -1] ; rational relation v1 + 4 v4 = 0
+
+######## s3_5*.py
+== 6a. Margin chain
+   5/4 < 13/10 < 4/3: True;  13/10 - 5/4 = 1/20;  4/3 - 13/10 = 1/30
+
+== 6b. (9) implies (11), rigorous lower bound for the difference, worst case over 3 <= |q| <= N
+           N            D          Q   difference / (W log B)  holds
+         100           52        2.5 (Q < 3: Lemma 1 needs X >= 3)
+         200          134        4.8                 0.011433  True
+         500          457       11.8                 0.025215  True
+        1000         1154       24.2                 0.030515  True
+        2000         2909       50.4                 0.033888  True
+        5000         9877      136.2                 0.036048  True
+       10000        24893      293.4                 0.036757  True
+       20000        62731      639.6                 0.037453  True
+       50000       212858     1818.2                 0.037995  True
+      100000       536375     4046.7                 0.038313  True
+      200000      1351591     9071.8                 0.038565  True
+      500000      4585997    26632.4                 0.038828  True
+     1000000     11556005    60544.4                 0.038983  True
+     2000000     29119329   138333.3                 0.039115  True
+     5000000     98802565   415260.6                 0.039256  True
+    10000000    248966897   958327.9                 0.039344  True
+
+== 6c. Parameter choices of C.9 close the decisive inequality (exact fractions)
+   C1 =     1: gamma =    270, eps = 2.315e-05, bracket = 0.012407, >= 1/90: True
+   C1 =    10: gamma =   1080, eps = 5.787e-07, bracket = 0.011435, >= 1/90: True
+   C1 =  1000: gamma =  90180, eps = 6.931e-11, bracket = 0.011115, >= 1/90: True
+   C1 =  1/10: gamma =    189, eps = 3.307e-04, bracket = 0.012963, >= 1/90: True
+
+== 6d. log Q versus (4/3) log N - 2 log log N
+   N = 1e+04: log Q - (4/3)log N =  -6.5988;  -2 log log N =  -4.4407
+   N = 1e+06: log Q - (4/3)log N =  -7.4095;  -2 log log N =  -5.2516
+   N = 1e+09: log Q - (4/3)log N =  -8.2205;  -2 log log N =  -6.0625
+   N = 1e+12: log Q - (4/3)log N =  -8.7958;  -2 log log N =  -6.6379
+
