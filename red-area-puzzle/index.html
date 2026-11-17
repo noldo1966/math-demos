@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Red Area Square Puzzle Has No Single Answer</title>
+<meta name="description" content="Interactive proof that the red-area square puzzle (10 cm square, bent 4 cm and 6 cm line with a right angle) does not determine the red area: it can be anything from 75 up to, but not including, 88 square centimeters.">
+<meta property="og:title" content="The red area in this square puzzle has no single answer">
+<meta property="og:description" content="Drag the tilt. The 4-6 right triangle keeps all three sides, yet the red area moves from 75 toward 88 square centimeters.">
+<meta property="og:url" content="https://noldo1966.github.io/math-demos/red-area-puzzle/">
+<meta property="og:image" content="https://noldo1966.github.io/math-demos/red-area-puzzle/preview.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2230; --muted:#5a6475; --line:#d9dde4;
+  --red:#a32d2d; --corner:rgba(239,159,39,.45); --cornerline:#ba7517; --accent:#2f6fc4; --key:#1d5fb3;
+}
+@media (prefers-color-scheme: dark){
+  :root{color-scheme:dark;--bg:#12151b;--panel:#1a1f28;--ink:#e7eaf0;--muted:#9aa3b2;--line:#2e3542;
+  --red:#b83a3a;--corner:rgba(240,178,74,.40);--cornerline:#f0b24a;--accent:#6aa3ec;--key:#8dbaf2}
+}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px;display:flex;flex-direction:column;gap:18px}
+h1{font-family:Literata,Georgia,serif;font-weight:600;font-size:clamp(26px,5vw,34px);line-height:1.2;margin:0;text-wrap:balance}
+h2{font-family:Literata,Georgia,serif;font-weight:600;font-size:22px;margin:10px 0 0}
+p{margin:0}
+.lede{color:var(--muted);max-width:64ch}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.presets{display:flex;flex-wrap:wrap;gap:8px}
+.presets button{font:500 14px "IBM Plex Sans",sans-serif;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 11px;cursor:pointer}
+.presets button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:"IBM Plex Sans",sans-serif;fill:var(--ink)}
+svg .mono{font-family:"IBM Plex Mono",monospace;font-size:14px}
+svg .onred{fill:#fff;font-weight:500;font-size:15px}
+.slider{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:14px}
+.slider input{flex:1;accent-color:var(--red)}
+.slider output{font:500 15px "IBM Plex Mono",monospace;color:var(--ink);min-width:5em;text-align:right}
+.big{display:flex;flex-wrap:wrap;gap:10px}
+.big>div{flex:1 1 150px;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.big .lab{font-size:13px;color:var(--muted)}
+.big .val{font:500 22px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.big .red .val{color:var(--red)}
+.ftab{display:flex;flex-direction:column}
+.fr{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:4px 16px;border-top:1px solid var(--line);padding:7px 0;font-size:15px}
+.fr .num{font-family:"IBM Plex Mono",monospace;font-size:14px;font-variant-numeric:tabular-nums}
+.fr.key .num{color:var(--key);font-weight:500}
+.note{font-size:14px;color:var(--muted);max-width:66ch}
+.math{font-family:"IBM Plex Mono",monospace;font-size:15px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;overflow-x:auto;white-space:nowrap}
+ol.proof{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:10px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-top:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:13px;color:var(--muted);font-weight:500}
+@media (max-width:480px){.fr{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>The red area in this square puzzle has no single answer</h1>
+<p class="lede">The puzzle gives a 10 cm square, a bent line made of a 4 cm piece and a 6 cm piece meeting at a right angle, and asks for the red area. Those facts fix the 4-6 right triangle completely, but not how far it is tilted. Drag the slider: every position below satisfies every condition in the puzzle, and the red area changes.</p>
+
+<div class="stage">
+  <div class="presets" id="presets" role="group" aria-label="Readings of the puzzle"></div>
+  <svg id="fig" viewBox="0 0 540 500" role="img" aria-label="The square with the red region, the corner triangle, and the bent line at the chosen tilt"></svg>
+  <label class="slider">Tilt θ of the 4 cm piece
+    <input id="th" type="range" min="-33.6" max="56.3" step="0.01" value="17.2">
+    <output id="thv"></output></label>
+  <div class="big">
+    <div class="red"><div class="lab">Red area</div><div class="val" id="redv"></div></div>
+    <div><div class="lab">Corner triangle (amber)</div><div class="val" id="corv"></div></div>
+    <div><div class="lab">Given triangle</div><div class="val" id="trv"></div></div>
+  </div>
+  <div class="ftab" id="ft"></div>
+  <svg id="graph" viewBox="0 0 540 220" role="img" aria-label="Graph of the red area against the tilt"></svg>
+  <p class="note">The graph shows the red area for every allowed tilt. The dot is the current figure. The lowest point is exactly 75; the ends approach 88 but never reach it.</p>
+</div>
+
+<h2>Why: the proof, step by step</h2>
+<p>Put the origin at the bottom-left corner of the square, 1 unit = 1 cm. Call the top-left corner D. Call A the point where the 4 cm piece meets the left side, B the bend, and C the point where the 6 cm piece meets the top side. Let θ be the angle the 4 cm piece makes below the horizontal, c = DC (along the top), and d = DA (down the left side).</p>
+<ol class="proof">
+  <li><b>The white region is two right triangles.</b> The segment AC splits it into triangle ABC (right angle at B, given) and triangle ADC (right angle at the corner D). So
+  <div class="math">Red = 100 − area(ABC) − area(ADC) = 100 − ½·4·6 − ½·c·d = 88 − ½·c·d</div></li>
+  <li><b>Place B.</b> Going 4 cm from A = (0, 10 − d) in direction (cos θ, −sin θ):
+  <div class="math">B = (4 cos θ, 10 − d − 4 sin θ)</div></li>
+  <li><b>Place C.</b> The 6 cm piece is perpendicular to AB, heading up, in direction (sin θ, cos θ):
+  <div class="math">C = (4 cos θ + 6 sin θ, 10 − d − 4 sin θ + 6 cos θ)</div></li>
+  <li><b>C must be on the top side</b> (its height is 10). Setting the second coordinate equal to 10:
+  <div class="math">d = 6 cos θ − 4 sin θ,&nbsp;&nbsp; c = 4 cos θ + 6 sin θ</div>
+  Check: c² + d² = (16cos²θ + 48 sinθ cosθ + 36 sin²θ) + (36cos²θ − 48 sinθ cosθ + 16 sin²θ) = 52 = AC², as the Pythagorean theorem requires.</li>
+  <li><b>Multiply.</b>
+  <div class="math">c·d = 24cos²θ − 16 sinθ cosθ + 36 sinθ cosθ − 24 sin²θ = 24 cos 2θ + 10 sin 2θ</div>
+  using cos²θ − sin²θ = cos 2θ and 2 sinθ cosθ = sin 2θ.</li>
+  <li><b>The red area as a function of the tilt.</b> Since √(12² + 5²) = 13, write 12 cos 2θ + 5 sin 2θ = 13 cos(2θ − φ) with φ = arctan(5/12) ≈ 22.62°. Then
+  <div class="math">Red = 88 − ½·c·d = 88 − 12 cos 2θ − 5 sin 2θ = 88 − 13 cos(2θ − φ)</div></li>
+  <li><b>Every tilt in range is a real figure.</b> We need c &gt; 0 and d &gt; 0, which means −33.69° &lt; θ &lt; 56.31° (tan θ between −2/3 and 3/2). The bend is always inside the square because its height is 10 − 6 cos θ, between 0 and 10, and its distance from the left side is 4 cos θ, between 0 and 10. The square is convex, so both pieces stay inside it.</li>
+  <li><b>Conclusion.</b> The red area depends on θ, which the puzzle does not give. Its smallest value is 88 − 13 = 75, at 2θ = φ (tan θ = 1/5, θ ≈ 11.31°, where c = d = √26). As θ approaches either end of its range, the corner triangle shrinks to nothing and the red area approaches 88 without reaching it. So the red area can be anything from 75 up to, but not including, 88 square centimeters.</li>
+</ol>
+
+<h2>What extra fact would give a single answer</h2>
+<table>
+<tr><th>Extra assumption (not in the puzzle)</th><th>Tilt θ</th><th>Red area</th></tr>
+<tr><td>A and C are the same distance from the corner D (c = d)</td><td>tan θ = 1/5, θ ≈ 11.31°</td><td>75 cm²</td></tr>
+<tr><td>The white region is the corner folded over along AC (a dog-ear): DA = AB = 4, DC = CB = 6</td><td>cos θ = 12/13, sin θ = 5/13, θ ≈ 22.62°</td><td>76 cm²</td></tr>
+<tr><td>The tilt is read off the posted drawing (its lengths are not to scale, but a uniform rescaling keeps angles)</td><td>θ ≈ 17.2°</td><td>≈ 75.3 cm²</td></tr>
+</table>
+<p class="note">Each of these answers is correct for its own assumption. None of the assumptions is stated in the puzzle, so a full answer has to name the one it uses.</p>
+<p class="note">Arnoldo Miranda, November 2026.</p>
+</div>
+
+<script>
+const R=Math.PI/180, PHI=Math.atan2(5,12)/R;
+const fx=(v,n=2)=>v.toFixed(n);
+function thFromCD(c,d){return Math.atan2(6*c-4*d,4*c+6*d)/R;}
+const presets=[
+ ['Equal distances (75)',Math.atan(0.2)/R],
+ ['Folded corner (76)',PHI],
+ ['Drawn angle (≈ 75.3)',17.2],
+ ['c = √43, d = 3',thFromCD(Math.sqrt(43),3)],
+ ['c = 7, d = √3',thFromCD(7,Math.sqrt(3))],
+ ['Near 88: d = 0.5',thFromCD(Math.sqrt(51.75),0.5)],
+ ['Near 88: c = 0.5',thFromCD(0.5,Math.sqrt(51.75))]
+];
+const pr=document.getElementById('presets'), sl=document.getElementById('th');
+presets.forEach((p,i)=>{const b=document.createElement('button');b.type='button';b.textContent=p[0];b.setAttribute('aria-pressed','false');
+ b.onclick=()=>{sl.value=p[1].toFixed(2);draw(p[1],i);};pr.appendChild(b);});
+sl.oninput=()=>draw(+sl.value,-1);
+
+const S=40, OX=90, OY=50;
+const P=(x,y)=>[OX+x*S, OY+(10-y)*S];
+const pt=p=>p[0].toFixed(1)+','+p[1].toFixed(1);
+function poly(a,fill,extra=''){return `<polygon points="${a.map(pt).join(' ')}" fill="${fill}" ${extra}/>`;}
+function line(a,b,st,w,extra=''){return `<line x1="${a[0].toFixed(1)}" y1="${a[1].toFixed(1)}" x2="${b[0].toFixed(1)}" y2="${b[1].toFixed(1)}" stroke="${st}" stroke-width="${w}" ${extra}/>`;}
+function tx(x,y,s,anc='middle',cls=''){return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anc}" class="${cls}">${s}</text>`;}
+
+function draw(deg,active){
+  [...pr.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===active?'true':'false'));
+  const t=deg*R, co=Math.cos(t), si=Math.sin(t);
+  const c=4*co+6*si, d=6*co-4*si;
+  const A=[0,10-d], B=[4*co,10-d-4*si], C=[c,10];
+  const AB=Math.hypot(B[0]-A[0],B[1]-A[1]), BC=Math.hypot(C[0]-B[0],C[1]-B[1]), AC=Math.hypot(C[0]-A[0],C[1]-A[1]);
+  const dot=(A[0]-B[0])*(C[0]-B[0])+(A[1]-B[1])*(C[1]-B[1]);
+  const ang=Math.acos(Math.max(-1,Math.min(1,dot/(AB*BC))))/R;
+  const corner=c*d/2, red=88-corner;
+  const inside=B[0]>0&&B[0]<10&&B[1]>0&&B[1]<10;
+  let g='<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>';
+  g+=poly([[0,10],A,C].map(p=>P(...p)),'var(--corner)');
+  g+=poly([A,B,C,[10,10],[10,0],[0,0]].map(p=>P(...p)),'var(--red)');
+  g+=`<rect x="${OX}" y="${OY}" width="${10*S}" height="${10*S}" fill="none" stroke="var(--ink)" stroke-width="3"/>`;
+  g+=line(P(...A),P(...C),'var(--ink)',1.2,'stroke-dasharray="6 5"');
+  g+=line(P(...A),P(...B),'var(--ink)',3)+line(P(...B),P(...C),'var(--ink)',3);
+  const u=[(A[0]-B[0])/AB,(A[1]-B[1])/AB], v=[(C[0]-B[0])/BC,(C[1]-B[1])/BC], k=0.55;
+  g+=`<polyline points="${pt(P(B[0]+k*u[0],B[1]+k*u[1]))} ${pt(P(B[0]+k*u[0]+k*v[0],B[1]+k*u[1]+k*v[1]))} ${pt(P(B[0]+k*v[0],B[1]+k*v[1]))}" fill="none" stroke="var(--ink)" stroke-width="1.5"/>`;
+  const sAB=deg>=0?-1:1, mAB=[(A[0]+B[0])/2+sAB*0.55*si,(A[1]+B[1])/2+sAB*0.55*co], mBC=[(B[0]+C[0])/2+0.6*co,(B[1]+C[1])/2-0.6*si];
+  g+=tx(...P(...mAB).map((z,i)=>i?z+5:z),'4','middle',deg>=0?'onred':'');
+  g+=tx(...P(...mBC).map((z,i)=>i?z+5:z),'6','middle','onred');
+  if(c>0.3) g+=line(P(0,10.45),P(c,10.45),'var(--cornerline)',1.5,'marker-start="url(#ar)" marker-end="url(#ar)"');
+  g+=tx(P(c/2,10)[0],OY-26,'c = '+fx(c),'middle','mono');
+  if(d>0.3) g+=line(P(-0.45,10),P(-0.45,10-d),'var(--cornerline)',1.5,'marker-start="url(#ar)" marker-end="url(#ar)"');
+  g+=tx(OX-24,P(0,10-d/2)[1]+5,'d = '+fx(d),'end','mono');
+  const Ap=P(...A); g+=line(Ap,[Ap[0]+70,Ap[1]],'var(--muted)',1,'stroke-dasharray="3 3"');
+  const r=48, e=[Ap[0]+r*co,Ap[1]+r*si];
+  if(Math.abs(deg)>0.5) g+=`<path d="M${Ap[0]+r} ${Ap[1].toFixed(1)} A${r} ${r} 0 0 ${deg>0?1:0} ${e[0].toFixed(1)} ${e[1].toFixed(1)}" fill="none" stroke="var(--muted)" stroke-width="1.2"/>`;
+  const hr=r+16, ht=t/2; g+=tx(Ap[0]+hr*Math.cos(ht),Ap[1]+hr*Math.sin(ht)+5,'θ','middle',deg>=0?'':'onred');
+  const Dp=P(0,10); g+=tx(Dp[0]-8,Dp[1]-8,'D','end');
+  g+=tx(Ap[0]-8,Ap[1]+(d<0.7?14:5),'A','end');
+  const q2=P(B[0]-0.45*u[0]-0.45*v[0],B[1]-0.45*u[1]-0.45*v[1]); g+=tx(q2[0],q2[1]+5,'B','middle','onred');
+  const Cp=P(...C); g+=tx(Cp[0]+12,Cp[1]-8,'C','start');
+  document.getElementById('fig').innerHTML=g;
+  document.getElementById('thv').textContent=fx(deg)+'°';
+  document.getElementById('redv').textContent=fx(red)+' cm²';
+  document.getElementById('corv').textContent=fx(corner)+' cm²';
+  document.getElementById('trv').textContent='4 · 6 · '+fx(AC,3);
+  const row=(a,b,key)=>`<div class="fr${key?' key':''}"><div>${a}</div><div class="num">${b}</div></div>`;
+  let h='';
+  h+=row('AB (given 4 cm piece)',fx(AB,4));
+  h+=row('BC (given 6 cm piece)',fx(BC,4));
+  h+=row('Angle at B (given right angle)',fx(ang,2)+'°');
+  h+=row('AC = √(4² + 6²) = √52',fx(AC,4));
+  h+=row('c = 4 cos θ + 6 sin θ',fx(c,4));
+  h+=row('d = 6 cos θ − 4 sin θ',fx(d,4));
+  h+=row('c² + d² (must equal 52)',fx(c*c+d*d,4));
+  h+=row('Bend B inside the square?',inside?'yes, at ('+fx(B[0],3)+', '+fx(B[1],3)+')':'no');
+  h+=row('Corner triangle = ½·c·d',fx(corner,4));
+  h+=row('Red = 100 − 12 − ½·c·d',fx(red,4),1);
+  document.getElementById('ft').innerHTML=h;
+  drawGraph(deg,red);
+}
+function drawGraph(deg,red){
+  const L=60,Rr=520,T=20,Bt=180,t0=-33.69,t1=56.31,y0=72,y1=89;
+  const X=t=>L+(t-t0)/(t1-t0)*(Rr-L), Y=a=>Bt-(a-y0)/(y1-y0)*(Bt-T);
+  const f=t=>88-13*Math.cos((2*t-PHI)*R);
+  let pts=[];for(let i=0;i<=240;i++){const t=t0+(t1-t0)*i/240;pts.push(X(t).toFixed(1)+','+Y(f(t)).toFixed(1));}
+  let g='';
+  g+=line([L,Bt],[Rr,Bt],'var(--line)',1)+line([L,T],[L,Bt],'var(--line)',1);
+  [75,80,85,88].forEach(a=>{g+=line([L,Y(a)],[Rr,Y(a)],'var(--line)',a===75||a===88?1.2:0.6,a===88?'stroke-dasharray="5 4"':'');g+=tx(L-8,Y(a)+4,a,'end','mono');});
+  [-30,0,30].forEach(t=>g+=tx(X(t),Bt+18,t+'°','middle','mono'));
+  g+=tx(Rr,Bt+18,'θ','end');
+  g+=`<polyline points="${pts.join(' ')}" fill="none" stroke="var(--red)" stroke-width="2.5"/>`;
+  g+=tx(X(11.31),Y(75)+16,'minimum 75','middle','mono');
+  g+=tx(X(11.31),Y(88)-6,'88: approached, never reached','middle','mono');
+  g+=`<circle cx="${X(deg).toFixed(1)}" cy="${Y(red).toFixed(1)}" r="6" fill="var(--red)" stroke="var(--panel)" stroke-width="2"/>`;
+  document.getElementById('graph').innerHTML=g;
+}
+draw(17.2,2);
+</script>
+</body>
+</html>
